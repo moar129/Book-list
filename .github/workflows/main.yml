@@ -1,0 +1,33 @@
+name: CI/CD Pipeline
+on:
+    push:
+        branches: [main, develop]
+    pull_request:
+        branches: [main, develop]
+jobs:
+    ci:
+        name: CI — Lint, Test & Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get code
+              uses: actions/checkout@v6
+            - name: Setup Node.js v24
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "24"
+                  cache: "npm"
+            - name: Installer dependencies
+              run: npm ci
+            - name: Lint
+              run: npm run lint
+            - name: Test
+              run: npm run test
+              env:
+                  VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+                  VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+            - name: Build
+              run: npm run build
+              env:
+                  VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+                  VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+    
