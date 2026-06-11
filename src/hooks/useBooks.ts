@@ -8,11 +8,6 @@ export function useBooks() {
     const [books, setBooks] = useState<Book[]>([])
     const [loading, setLoading] = useState(true)
 
-    // initial fetch of books when the component using this hook mounts
-    useEffect(() => {
-        fetchBooks()
-    }, [])
-
     // function to fetch books from the database
     async function fetchBooks() {
         const { data, error } = await supabase
@@ -24,6 +19,11 @@ export function useBooks() {
         else setBooks(data ?? [])
         setLoading(false)
     }
+
+    // initial fetch of books when the component using this hook mounts
+    useEffect(() => {
+        fetchBooks()
+    }, [])
 
     // function to add a new book to the database
     async function addBook(title: string, author: string, description: string) {
