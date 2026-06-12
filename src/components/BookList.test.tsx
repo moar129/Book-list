@@ -13,8 +13,7 @@ describe('BookList', () => {
         expect(book.read).toBe(false)
     })
     
-    /*it('should fail deliberately to demonstrate fail-fast', () => {
-    expect(1).toBe(2)})*/
+    it('should fail deliberately', () => {expect(1).toBe(2)})
 })
 
 
