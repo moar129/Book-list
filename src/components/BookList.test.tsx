@@ -14,7 +14,7 @@ describe('BookList', () => {
     })
     
     it('should fail deliberately to demonstrate fail-fast', () => {
-    expect(1).toBe(2)
+    expect(1).toBe(2)})
 })
 
 
