@@ -1,75 +1,118 @@
-# React + TypeScript + Vite
+# 📚 Book List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+En fullstack webapplikation til at holde styr på bøger du vil læse eller har læst. Bygget med React, Supabase og Vercel — automatiseret via en CI/CD-pipeline i GitHub Actions.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Lag | Teknologi |
+|---|---|
+| Frontend | React 19 + TypeScript + Vite |
+| Styling | Tailwind CSS |
+| Backend | Supabase (PostgreSQL + REST API) |
+| Hosting | Vercel (CDN) |
+| CI/CD | GitHub Actions |
 
-## React Compiler
+## CI/CD-pipeline
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Projektet er automatiseret via GitHub Actions med to jobs:
 
-Note: This will impact Vite dev & build performances.
+```
+CI — Lint, Test & Build
+  ① Checkout  →  ② Setup Node v24  →  ③ npm ci  →  ④ Lint  →  ⑤ Test  →  ⑥ Build
 
-## Expanding the ESLint configuration
+        ↓ needs: ci
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Deploy til Staging (develop)       Deploy til Produktion (main)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Fail-fast:** Pipelinen stopper øjeblikkeligt ved første fejl
+- **Quality gate:** Deployment er umuligt uden bestået CI-job
+- **Miljøadskillelse:** develop → staging (preview), main → produktion
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Kom i gang
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Krav
+
+- Node.js v24
+- En Supabase-konto
+- En Vercel-konto
+
+### Installation
+
+```bash
+git clone https://github.com/DITBRUGERNAVN/book-list.git
+cd book-list
+npm install
 ```
+
+### Environment variables
+
+Opret en `.env.local` fil i roden af projektet:
+
+```
+VITE_SUPABASE_URL=din-supabase-url
+VITE_SUPABASE_ANON_KEY=din-supabase-anon-key
+```
+
+### Database
+
+Kør følgende SQL i Supabase SQL Editor:
+
+```sql
+create table books (
+  id bigint primary key generated always as identity,
+  title text not null,
+  author text not null,
+  description text,
+  is_read boolean not null default false,
+  created_at timestamptz not null default now()
+);
+```
+
+### Kør lokalt
+
+```bash
+npm run dev
+```
+
+## Scripts
+
+| Script | Beskrivelse |
+|---|---|
+| `npm run dev` | Start udviklingsserver |
+| `npm run build` | Byg til produktion |
+| `npm run lint` | Kør ESLint |
+| `npm run test` | Kør Vitest unit tests |
+
+## GitHub Secrets
+
+Følgende secrets skal sættes op i GitHub repository settings:
+
+| Secret | Beskrivelse |
+|---|---|
+| `VERCEL_TOKEN` | Vercel API token |
+| `VERCEL_ORG_ID` | Vercel organisation ID |
+| `VERCEL_PROJECT_ID` | Vercel projekt ID |
+| `VITE_SUPABASE_URL` | Supabase projekt URL |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anon/publishable key |
+
+## Projektstruktur
+
+```
+src/
+├── components/
+│   ├── BookForm.tsx        # Formular til at tilføje bøger
+│   ├── BookList.tsx        # Liste over bøger
+│   └── BookList.test.tsx   # Unit tests
+├── hooks/
+│   └── useBooks.ts         # Supabase data-logik
+├── lib/
+│   └── supabase.ts         # Supabase klient
+├── types/
+│   └── book.ts             # TypeScript typer
+└── App.tsx                 # Rod-komponent
+```
+
+---
+
+*Eksamensprojekt — GitHub Actions til Automatisering | 4. semester, Datamatiker | Zealand Roskilde 2026*
