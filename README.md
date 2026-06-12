@@ -6,7 +6,7 @@ En fullstack webapplikation til at holde styr på bøger du vil læse eller har 
 
 | Lag | Teknologi |
 |---|---|
-| Frontend | React 19 + TypeScript + Vite |
+| Frontend | React + TypeScript + Vite |
 | Styling | Tailwind CSS |
 | Backend | Supabase (PostgreSQL + REST API) |
 | Hosting | Vercel (CDN) |
@@ -40,18 +40,9 @@ Deploy til Staging (develop)       Deploy til Produktion (main)
 ### Installation
 
 ```bash
-git clone https://github.com/DITBRUGERNAVN/book-list.git
+git clone https://github.com/moar129/Book-list.git
 cd book-list
 npm install
-```
-
-### Environment variables
-
-Opret en `.env.local` fil i roden af projektet:
-
-```
-VITE_SUPABASE_URL=din-supabase-url
-VITE_SUPABASE_ANON_KEY=din-supabase-anon-key
 ```
 
 ### Database
@@ -83,36 +74,5 @@ npm run dev
 | `npm run build` | Byg til produktion |
 | `npm run lint` | Kør ESLint |
 | `npm run test` | Kør Vitest unit tests |
-
-## GitHub Secrets
-
-Følgende secrets skal sættes op i GitHub repository settings:
-
-| Secret | Beskrivelse |
-|---|---|
-| `VERCEL_TOKEN` | Vercel API token |
-| `VERCEL_ORG_ID` | Vercel organisation ID |
-| `VERCEL_PROJECT_ID` | Vercel projekt ID |
-| `VITE_SUPABASE_URL` | Supabase projekt URL |
-| `VITE_SUPABASE_ANON_KEY` | Supabase anon/publishable key |
-
-## Projektstruktur
-
-```
-src/
-├── components/
-│   ├── BookForm.tsx        # Formular til at tilføje bøger
-│   ├── BookList.tsx        # Liste over bøger
-│   └── BookList.test.tsx   # Unit tests
-├── hooks/
-│   └── useBooks.ts         # Supabase data-logik
-├── lib/
-│   └── supabase.ts         # Supabase klient
-├── types/
-│   └── book.ts             # TypeScript typer
-└── App.tsx                 # Rod-komponent
-```
-
----
 
 *Eksamensprojekt — GitHub Actions til Automatisering | 4. semester, Datamatiker | Zealand Roskilde 2026*
