@@ -12,7 +12,14 @@ describe('BookList', () => {
         const book = { id: 1, title: 'Clean Code', author: 'Robert Martin', read: false }
         expect(book.read).toBe(false)
     })
+    
+    //it('should fail deliberately', () => {expect(1).toBe(2)})
 })
+
+
+
+
+
 
 /*
 describe  →  TestClass
