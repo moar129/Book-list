@@ -25,5 +25,4 @@ export default App
 
 // Ændre tekst
 // Min bogliste — eksamen 2026
-// rød tekst
-//<h1 className="text-3xl font-bold text-red-500 mb-8">Test</h1>
+
